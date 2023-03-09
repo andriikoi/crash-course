@@ -1,13 +1,16 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import db from './db';
+import initControllers from './controllers';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-db.connect();
+const connection = db.connect();
+
+initControllers(app, connection);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Full stack crash course');
