@@ -11,18 +11,18 @@ const connect = () => {
         dialect: 'postgres'
     });
 
-    checkConnection(connection).then((result) => console.log(result));
+    checkConnection(connection).then((result) => result && console.log('Connection has been established successfully.'));
 
     return connection;
 };
 
-const checkConnection = async (connection: Sequelize): Promise<string> => {
+const checkConnection = async (connection: Sequelize): Promise<boolean> => {
     try {
         await connection.authenticate();
-        return 'Connection has been established successfully.';
+        return true;
     } catch (error) {
-        console.error('Error:', error);
-        return 'Unable to connect to the database';
+        console.error('Unable to connect to the database:', error);
+        return false;
     }
 };
 
