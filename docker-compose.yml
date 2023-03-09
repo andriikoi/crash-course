@@ -1,0 +1,18 @@
+version: '3.8'
+
+
+services:
+  postgres:
+    container_name: crash-course-db
+    image: postgres:14.1-alpine
+    env_file:
+      - .env
+    volumes:
+      - postgres-db:/data/postgres
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+
+volumes:
+  postgres-db:
+    driver: local
