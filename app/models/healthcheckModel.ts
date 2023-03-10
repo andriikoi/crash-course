@@ -1,20 +1,9 @@
-import db from '../db';
-import { Sequelize } from 'sequelize';
+import { checkConnection } from '../db';
+import connection from '../index';
 
-interface IHealthcheckModel {
-    connection?: Sequelize;
-}
-
-class HealthcheckModel implements IHealthcheckModel {
-    connection: Sequelize;
-
-    constructor(connection: Sequelize) {
-        this.connection = connection;
-        this.check = this.check.bind(this);
-    }
-
+class HealthcheckModel {
     public check(): Promise<boolean> {
-        return db.checkConnection(this.connection);
+        return checkConnection(connection);
     }
 }
 
