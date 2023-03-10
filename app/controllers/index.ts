@@ -1,9 +1,8 @@
 import { Express } from 'express';
-import { Sequelize } from 'sequelize';
 import initHealthcheckController from './healthcheckController';
 
-const initControllers = (app: Express, connection: Sequelize) => {
-    initHealthcheckController(app, connection);
+const initControllers = (app: Express) => {
+    initHealthcheckController(app);
 }
 
 export default initControllers;

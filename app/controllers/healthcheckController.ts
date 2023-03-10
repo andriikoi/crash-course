@@ -1,9 +1,8 @@
 import { Express, Request, Response, Router } from 'express';
 import HealthcheckModel  from '../models/healthcheckModel';
-import { Sequelize } from 'sequelize';
 
-const initHealthcheckController = (app: Express, connection: Sequelize): void => {
-    const model = new HealthcheckModel(connection);
+const initHealthcheckController = (app: Express): void => {
+    const model = new HealthcheckModel();
 
     const router = Router();
 
