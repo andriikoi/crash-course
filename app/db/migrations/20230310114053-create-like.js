@@ -36,6 +36,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }, {
+      uniqueKeys: {
+        likes_unique: {
+          fields: ['userId', 'postId']
+        }
+      }
     });
   },
   async down(queryInterface, Sequelize) {

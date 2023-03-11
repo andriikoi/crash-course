@@ -2,7 +2,6 @@ import { DataTypes } from 'sequelize';
 import { v1 as uuid } from 'uuid';
 import connection from '../index';
 import Role from './role';
-import File from './file';
 import Post from './post';
 
 const User = connection.define('User', {
@@ -20,7 +19,7 @@ const User = connection.define('User', {
     avatar: {
         type: DataTypes.UUID,
         references: {
-            model: 'File',
+            model: 'files',
             key: 'id'
         }
     },
