@@ -1,8 +1,8 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import { checkConnection } from './db';
-import initControllers from './controllers';
 import { Sequelize } from 'sequelize';
+import rootRouter from './routes';
 
 dotenv.config();
 
@@ -22,11 +22,7 @@ const connection = new Sequelize(DB_NAME, USER, PASSWORD, {
 checkConnection(connection)
     .then((result: boolean) => result && console.log('Connection has been established successfully.'));
 
-initControllers(app, connection);
-
-app.get('/', (req: Request, res: Response) => {
-    res.send('Full stack crash course');
-});
+app.use(rootRouter);
 
 app.listen(port, () => {
     console.log(`Crash course app listening on port ${port}`);
