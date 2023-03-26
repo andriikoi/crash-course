@@ -10,7 +10,6 @@ class HealthcheckController {
 
     public check = async (req: Request, res: Response): Promise<Response> => {
         const status = await this.model.check();
-        console.log('test', status);
         return res.send({ db: status });
     }
 }

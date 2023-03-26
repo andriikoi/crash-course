@@ -1,4 +1,6 @@
 'use strict';
+const {DataTypes} = require('sequelize');
+const _Sequelize = require('sequelize');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -6,7 +8,8 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: DataTypes.UUID,
+        defaultValue: _Sequelize.UUIDV4,
       },
       email: {
         type: Sequelize.STRING,
@@ -14,7 +17,7 @@ module.exports = {
         unique: true
       },
       avatar: {
-        type: Sequelize.UUID,
+        type: DataTypes.UUID,
         references: {
           model: 'files',
           key: 'id'
@@ -30,6 +33,16 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      followerId: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      refreshToken: {
+        type: DataTypes.STRING,
       },
       about: {
         type: Sequelize.TEXT

@@ -1,14 +1,10 @@
-import { DataTypes } from 'sequelize';
-import { v1 as uuid } from 'uuid';
-import connection from '../index';
-import Post from './post';
-import User from './user';
+import _Sequelize, { DataTypes, Sequelize } from 'sequelize';
 
-const Like = connection.define('Like', {
+const defineLikeModel = (sequelize: Sequelize) => sequelize.define('Like', {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
-        defaultValue: uuid,
+        defaultValue: _Sequelize.UUIDV4,
         allowNull: false,
     },
     userId: {
@@ -29,7 +25,4 @@ const Like = connection.define('Like', {
     },
 });
 
-Like.belongsTo(Post);
-Like.belongsTo(User);
-
-export default Like;
+export default defineLikeModel;
