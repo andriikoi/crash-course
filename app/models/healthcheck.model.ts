@@ -1,9 +1,9 @@
 import { checkConnection } from '../db';
-import connection from '../index';
+import db from '../db';
 
 class HealthcheckModel {
     public check(): Promise<boolean> {
-        return checkConnection(connection);
+        return checkConnection(db.sequelize);
     }
 }
 
