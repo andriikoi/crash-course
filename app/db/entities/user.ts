@@ -1,9 +1,11 @@
 import _Sequelize, { DataTypes, Model, Sequelize } from 'sequelize';
 
-interface IUser {
+export interface IUser {
     id: string;
     email: string;
     avatar?: string;
+    firstName?: string;
+    lastName?: string;
     username: string;
     password: string;
     followerId?: string;
@@ -43,6 +45,12 @@ const defineUserModel = (sequelize: Sequelize) => sequelize.define<UserModel>('U
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+    },
+    firstName: {
+        type: DataTypes.STRING,
+    },
+    lastName: {
+        type: DataTypes.STRING,
     },
     password: {
         type: DataTypes.STRING,
