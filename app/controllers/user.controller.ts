@@ -39,7 +39,27 @@ class UserController {
             }
 
             const result = await this.model.delete(id);
-            return res.send(result);
+            return res.status(204).send(result);
+        } catch (e) {
+            return sendErrorResponse(res, e);
+        }
+    }
+
+    public updateMe = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            const { user: { id }, body } = req;
+            const result = await this.model.update(id, body);
+            return res.status(200).send(result);
+        } catch (e) {
+            return sendErrorResponse(res, e);
+        }
+    }
+
+    public getMe = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            const { user: { id } } = req;
+            const result = await this.model.findOne(id);
+            return res.status(200).send(result);
         } catch (e) {
             return sendErrorResponse(res, e);
         }

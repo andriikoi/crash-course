@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 import jwt from 'jsonwebtoken';
 import db from '../db';
 import omit from 'lodash/omit';
+import { IUser } from '../db/entities/user';
 
 interface ILoginResponse {
     accessToken: string;
@@ -11,6 +12,8 @@ interface ILoginResponse {
 }
 
 const { User } = db.entities;
+
+const USER_VISIBLE_FIELDS = ['id', 'firstName', 'lastName', 'username', 'email', 'avatar', 'followerId', 'about'];
 
 class UserModel {
     public async login(username: string, password: string): Promise<ILoginResponse> {
@@ -69,6 +72,29 @@ class UserModel {
         }
 
         return user.destroy();
+    }
+
+    public async update(id: string, body: Partial<IUser>): Promise<IUser> {
+        try {
+            const result = await User.update(body,
+                { where: { id },
+                    returning: USER_VISIBLE_FIELDS,
+                    plain: true,
+                });
+            return result[1];
+        } catch (e) {
+            throw new BadRequestException(400, 'Can\'t update user profile');
+        }
+    }
+
+    public async findOne(id: string): Promise<IUser> {
+        const user = await User.findByPk(id, { attributes: USER_VISIBLE_FIELDS });
+
+        if (!user) {
+            throw new BadRequestException(404, 'User not found');
+        }
+
+        return user;
     }
 }
 

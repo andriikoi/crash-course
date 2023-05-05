@@ -1,12 +1,16 @@
 import { Router } from 'express';
-import authController from '../controllers/user.controller';
+import userController from '../controllers/user.controller';
 import verifyJwt from '../middlewares/verifyJwt';
 
 const userRouter = Router();
 
-userRouter.post('/signin', authController.login);
-userRouter.post('/signup', authController.register);
+userRouter.post('/signin', userController.login);
+userRouter.post('/signup', userController.register);
 
-userRouter.delete('/:id', [verifyJwt, authController.delete]);
+userRouter.patch('/update-me', [verifyJwt, userController.updateMe]);
+
+userRouter.get('/me', [verifyJwt, userController.getMe]);
+
+userRouter.delete('/:id', [verifyJwt, userController.delete]);
 
 export default userRouter;

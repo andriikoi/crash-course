@@ -1,5 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { IUser } from '../db/entities/user';
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Express {
+        interface Request {
+            user: { id: string };
+        }
+    }
+}
 
 const verifyJwt = (req: Request, res: Response, next: NextFunction): void => {
     const authHeader = req.headers['authorization'];
@@ -20,10 +30,10 @@ const verifyJwt = (req: Request, res: Response, next: NextFunction): void => {
 
     jwt.verify(token, secretKey, (err, user) => {
         if (err) {
-            return res.status(403).send('Access token is invalid or has expired');
+            return res.status(401).send('Access token is invalid or has expired');
         }
 
-        //req.user = user;
+        req.user = user as IUser;
         next();
     });
 }
