@@ -55,7 +55,7 @@ class UserModel {
         const user = await User.findOne({ where: { [Op.or]: [{ username }, { email }]} });
 
         if (user) {
-            throw new BadRequestException(400, 'User already exists');
+            throw new BadRequestException(409, 'User already exists');
         }
 
         const passwordHash = await bcrypt.hash(password, 10);
