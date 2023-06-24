@@ -14,6 +14,8 @@ class UserController {
         try {
             const { username, password } = req.body || {};
             const result = await this.model.login(username, password);
+            res.cookie('accessToken', result.accessToken);
+            res.cookie('refreshToken', result.refreshToken);
             return res.send(result);
         } catch (e) {
             return sendErrorResponse(res, e);

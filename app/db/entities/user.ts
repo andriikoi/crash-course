@@ -28,11 +28,7 @@ const defineUserModel = (sequelize: Sequelize) => sequelize.define<UserModel>('U
         unique: true,
     },
     avatar: {
-        type: DataTypes.UUID,
-        references: {
-            model: 'files',
-            key: 'id'
-        }
+        type: DataTypes.STRING,
     },
     followerId: {
         type: DataTypes.UUID,
