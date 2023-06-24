@@ -17,13 +17,7 @@ module.exports = {
         unique: true
       },
       avatar: {
-        type: DataTypes.UUID,
-        references: {
-          model: 'files',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        type: DataTypes.STRING,
       },
       firstName: {
         type: DataTypes.STRING,
