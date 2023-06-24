@@ -2,6 +2,7 @@ import express, { Express, Router } from 'express';
 import dotenv from 'dotenv';
 import routes from './routes';
 import cors from 'cors';
+import cookies from 'cookie-parser';
 
 dotenv.config();
 
@@ -9,8 +10,10 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: '*'
+    credentials: true,
+    origin: 'http://localhost:9000'
 }));
+app.use(cookies());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

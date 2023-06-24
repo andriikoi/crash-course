@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload, VerifyErrors } from 'jsonwebtoken';
 import { IUser } from '../db/entities/user';
 
 declare global {
@@ -12,8 +12,7 @@ declare global {
 }
 
 const verifyJwt = (req: Request, res: Response, next: NextFunction): void => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    const { accessToken } = req.cookies;
 
     const secretKey = process.env.JWT_SECRET;
 
@@ -23,12 +22,12 @@ const verifyJwt = (req: Request, res: Response, next: NextFunction): void => {
         return;
     }
 
-    if (!token) {
+    if (!accessToken) {
         res.status(401).send('Access token is missing');
         return;
     }
 
-    jwt.verify(token, secretKey, (err, user) => {
+    jwt.verify(accessToken, secretKey, (err: VerifyErrors | null, user?: JwtPayload | string) => {
         if (err) {
             return res.status(401).send('Access token is invalid or has expired');
         }
