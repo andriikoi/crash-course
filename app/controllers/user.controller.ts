@@ -20,8 +20,8 @@ class UserController {
         try {
             const { username, password } = req.body || {};
             const result = await this.model.login(username, password);
-            res.cookie('accessToken', result.accessToken, { domain: getClientDomain() });
-            res.cookie('refreshToken', result.refreshToken, { domain: getClientDomain() });
+            res.cookie('accessToken', result.accessToken, { sameSite: 'none' });
+            res.cookie('refreshToken', result.refreshToken, { sameSite: 'none' });
             return res.send(result);
         } catch (e) {
             return sendErrorResponse(res, e);
