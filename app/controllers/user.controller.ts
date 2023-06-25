@@ -14,8 +14,8 @@ class UserController {
         try {
             const { username, password } = req.body || {};
             const result = await this.model.login(username, password);
-            res.cookie('accessToken', result.accessToken, { domain: '/' });
-            res.cookie('refreshToken', result.refreshToken, { domain: '/' });
+            res.cookie('accessToken', result.accessToken, { domain: process.env.CLIENT_URL || 'http://localhost:9000' });
+            res.cookie('refreshToken', result.refreshToken, { domain: process.env.CLIENT_URL || 'http://localhost:9000' });
             return res.send(result);
         } catch (e) {
             return sendErrorResponse(res, e);
