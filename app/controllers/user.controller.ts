@@ -3,6 +3,12 @@ import UserModel from '../models/user.model';
 import { NotFoundException, sendErrorResponse } from '../helpers/errors';
 import { validate as validateUuid } from 'uuid';
 
+const getClientDomain = () => {
+    const CLIENT_URL = process.env.CLIENT_URL;
+    if (!CLIENT_URL) return;
+    return new URL(CLIENT_URL).hostname;
+}
+
 class UserController {
     private model: UserModel;
 
@@ -14,8 +20,8 @@ class UserController {
         try {
             const { username, password } = req.body || {};
             const result = await this.model.login(username, password);
-            res.cookie('accessToken', result.accessToken, { domain: process.env.CLIENT_URL || 'http://localhost:9000' });
-            res.cookie('refreshToken', result.refreshToken, { domain: process.env.CLIENT_URL || 'http://localhost:9000' });
+            res.cookie('accessToken', result.accessToken, { domain: getClientDomain() });
+            res.cookie('refreshToken', result.refreshToken, { domain: getClientDomain() });
             return res.send(result);
         } catch (e) {
             return sendErrorResponse(res, e);
